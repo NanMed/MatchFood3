@@ -81,7 +81,7 @@ private IEnumerator ShiftTilesDown(int x, int yStart, float shiftDelay = .03f) {
     }
 
     for (int i = 0; i < nullCount; i++) { // 3
-				GUIManager.instance.Score += 50;
+				GUIManager.instance.Score += 1;
 				yield return new WaitForSeconds(shiftDelay);// 4
         for (int k = 0; k < renders.Count - 1; k++) { // 5
             renders[k].sprite = renders[k + 1].sprite;
