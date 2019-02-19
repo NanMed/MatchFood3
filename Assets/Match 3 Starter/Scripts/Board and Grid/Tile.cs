@@ -48,7 +48,7 @@ public class Tile : MonoBehaviour {
 				previousSelected.ClearAllMatches();
 				previousSelected.Deselect();
 				ClearAllMatches();
-    } else { // 3
+				} else { // 3
         previousSelected.GetComponent<Tile>().Deselect();
         Select();
     }
@@ -122,7 +122,7 @@ public void ClearAllMatches() {
 				StopCoroutine(BoardManager.instance.FindNullTiles());
 StartCoroutine(BoardManager.instance.FindNullTiles());
         //SFXManager.instance.PlaySFX(Clip.Clear);
-    }
+		}
 }
 
 }
