@@ -30,11 +30,13 @@ public class Tile : MonoBehaviour {
 		render.color = Color.white;
 		previousSelected = null;
 	}
+		
 
 	void OnMouseDown() {
 	// 1
-    if (render.sprite == null || BoardManager.instance.IsShifting) {
+		if (render.sprite == null || BoardManager.instance.IsShifting && render.sprite.name == "totem") {
         return;
+			Debug.Log ("Hola");
     }
 
     if (isSelected) { // 2 Is it already selected?

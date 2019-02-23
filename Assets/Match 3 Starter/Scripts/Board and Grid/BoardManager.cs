@@ -1,5 +1,3 @@
-
-
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,9 +8,17 @@ public class BoardManager : MonoBehaviour {
 	public GameObject tile;
 	public int xSize, ySize;
 
+	public GameObject powerUp;
+	public List<Sprite> power = new List<Sprite>();
+
+
 	private GameObject[,] tiles;
+	private GameObject[,] powers;
+	public GameObject[] powering;
 
 	public bool IsShifting { get; set; }
+
+	public bool totemSwap = false;
 
 	void Start () {
 		instance = GetComponent<BoardManager>();
@@ -23,11 +29,15 @@ public class BoardManager : MonoBehaviour {
 
 	private void CreateBoard (float xOffset, float yOffset) {
 		tiles = new GameObject[xSize, ySize];
+		powers = new GameObject[xSize, ySize];
+		powering = new GameObject[4];
 
 
 
         float startX = transform.position.x;
 		float startY = transform.position.y;
+
+		int randomIndex = Random.Range (0, powering.Length);
 
 		Sprite[] previousLeft = new Sprite[ySize]; //revisar si dejar estas dos lineas
     Sprite previousBelow = null;
@@ -35,18 +45,31 @@ public class BoardManager : MonoBehaviour {
 		for (int x = 0; x < xSize; x++) {
 			for (int y = 0; y < ySize; y++) {
 				GameObject newTile = Instantiate(tile, new Vector3(startX + (xOffset * x), startY + (yOffset * y), 0), tile.transform.rotation);
+				//GameObject instantiatedObject = Instantiate (powering[randomIndex], new Vector3(startX + (xOffset * x), startY + (yOffset * y), Quaternion.identity) as GameObject;
+				GameObject newPower = Instantiate(powerUp, new Vector3(startX + (xOffset * x), startY + (yOffset * y), 0), powerUp.transform.rotation);
 				tiles[x, y] = newTile;
+				powers [x, y] = newPower;
 
 				newTile.transform.parent = transform; // 1
+				newPower.transform.parent = transform;
 				List<Sprite> possibleCharacters = new List<Sprite>(); // 1
+				List<Sprite> possiblePower = new List<Sprite>();
 possibleCharacters.AddRange(characters); // 2
+				possiblePower.AddRange (power);
+
 
 possibleCharacters.Remove(previousLeft[y]); // 3
+				possiblePower.Remove (previousLeft[y]);
 possibleCharacters.Remove(previousBelow);
+				possiblePower.Remove (previousBelow);
 		Sprite newSprite = possibleCharacters[Random.Range(0, possibleCharacters.Count)]; // 2
+				Sprite newSpriteP = possiblePower[Random.Range (0, possiblePower.Count)];
 		newTile.GetComponent<SpriteRenderer>().sprite = newSprite; // 3
+				newPower.GetComponent<SpriteRenderer>().sprite = newSpriteP;
 		previousLeft[y] = newSprite;
+				previousLeft [y] = newSpriteP;
 previousBelow = newSprite;
+				previousBelow = newSpriteP;
 			}
         }
     }
@@ -107,5 +130,9 @@ private Sprite GetNewSprite(int x, int y) {
 
     return possibleCharacters[Random.Range(0, possibleCharacters.Count)];
 }
-
+	/*public void CheckPower(){
+		if (powers[0, 0] == "totem") {
+			bool totemSwap = false;
+		}
+	}*/
 }
